@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apvinic | Tu Guía de Transporte Inteligente</title>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="shortcut icon" href="./apvinic_logo.png" type="image/x-icon">
+    
+    <style>
+        :root {
+            --primary: #d19a02;
+            --primary-light: #ffbc05;
+            --dark: #0f172a;
+            --text: #475569;
+            --white: #ffffff;
+            --bg: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- SECCIÓN HERO --- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(209, 154, 2, 0.15), transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(15, 23, 42, 0.05), transparent 40%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .logo-top {
+            width: 70px;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        h1 span { color: var(--primary); }
+
+        .hero-p {
+            font-size: 1.25rem;
+            color: var(--text);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(209, 154, 2, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--dark);
+            color: var(--dark);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--dark);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Mockup Teléfono */
+        .phone-frame {
+            width: 280px;
+            height: 580px;
+            background: #1e293b;
+            border: 12px solid #334155;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .phone-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- SECCIÓN PWA INSTRUCCIONES --- */
+        .pwa-guide {
+            padding: 80px 0;
+            background: #f1f5f9;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .guide-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            border-left: 5px solid var(--primary);
+            width: 91%;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .guide-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .step-list { list-style: none; }
+        .step-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .step-num {
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- CARACTERÍSTICAS --- */
+        .features { padding: 100px 0; background: white; }
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card { padding: 3rem 2rem; border-radius: 24px; background: var(--bg); border: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .feature-card iconify-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+
+        footer { padding: 3rem 0; text-align: center; border-top: 1px solid #e2e8f0; color: var(--text); }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 968px) {
+            .hero-grid, .guide-grid { grid-template-columns: 1fr; }
+            .hero-content { order: 1; text-align: center; }
+            .hero-image { order: 2; margin-bottom: 2rem;   }
+            .hero-image .phone-frame{
+                margin: auto;
+            }
+            .cta-group { justify-content: center; }
+          
+
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <img src="./apvinic_logo.png" alt="Logo" class="logo-top">
+                    <h1>Tu transporte, <span>bajo control</span> con Apvinic</h1>
+                    <p class="hero-p">Encuentra paradas cercanas, visualiza rutas en tiempo real y no pierdas ni un segundo más esperando.</p>
+                    
+                    <div class="cta-group">
+                        <a href="https://apvinic.vercel.app" target="_blank" class="btn btn-primary">
+                            <iconify-icon icon="solar:globus-bold-duotone"></iconify-icon>
+                            Ir a la Web App
+                        </a>
+                        <button class="btn btn-outline" onclick="handleDownload(event)">
+                            <iconify-icon icon="solar:download-square-bold-duotone"></iconify-icon>
+                            Descargar APK
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-image">
+                    <div class="phone-frame">
+                        <img src="./capturaApp.jpg" alt="Vista previa de Apvinic">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pwa-guide">
+        <div class="container">
+            <div class="section-title">
+                <h2>Cómo instalar Apvinic en tu móvil</h2>
+                <p>Usa nuestra tecnología PWA para tener la app sin ocupar espacio en tu memoria.</p>
+            </div>
+
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <h3><iconify-icon icon="solar:bell-bing-bold-duotone"></iconify-icon> Opción 1: Notificación rápida</h3>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span> Entra a la Web App desde tu navegador móvil.</li>
+                        <li><span class="step-num">2</span> Espera 2 segundos y aparecerá un mensaje flotante en la parte inferior: <b>"Agregar Apvinic a la pantalla de inicio"</b>.</li>
+                        <li><span class="step-num">3</span> Dale clic y confirma la instalación.</li>
+                    </ul>
+                </div>
+
+                <div class="guide-card">
+                    <h3><iconify-icon icon="solar:settings-bold-duotone"></iconify-icon> Opción 2: Menú del navegador</h3>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span> Pulsa los tres puntos <b>(⋮)</b> o el icono de <b>compartir</b> en tu navegador (Chrome o Safari).</li>
+                        <li><span class="step-num">2</span> Busca y selecciona la opción <b>"Instalar aplicación"</b> o <b>"Agregar a inicio"</b>.</li>
+                        <li><span class="step-num">3</span> ¡Listo! Ahora tendrás el icono de Apvinic junto a tus otras apps.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-title"><h2>Funciones Principales</h2></div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <iconify-icon icon="solar:map-point-wave-bold-duotone"></iconify-icon>
+                    <h3>Rutas en Vivo</h3>
+                    <p>Accede al mapa interactivo y visualiza la ubicación exacta de las unidades.</p>
+                </div>
+                <div class="feature-card">
+                    <iconify-icon icon="solar:heart-bold-duotone"></iconify-icon>
+                    <h3>Favoritos</h3>
+                    <p>Guarda tus rutas diarias para recibirlas al instante.</p>
+                </div>
+                <div class="feature-card">
+                    <iconify-icon icon="solar:routing-bold-duotone"></iconify-icon>
+                    <h3>Planificador</h3>
+                    <p>Dinos a dónde quieres ir y nosotros trazamos la ruta eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Apvinic. Simplificando tu movilidad en Nicaragua.</p>
+        </div>
+    </footer>
+
+    <div id="downloadModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="loader"></div>
+            <h3 style="margin-bottom: 10px;">Iniciando Descarga</h3>
+            <p style="color: var(--text);">Preparando el archivo APK de Apvinic...</p>
+        </div>
+    </div>
+
+    <script>
+        function handleDownload(e) {
+            e.preventDefault();
+            const modal = document.getElementById('downloadModal');
+            
+            // Mostrar modal
+            modal.style.display = 'flex';
+
+            // Simular inicio de descarga
+            setTimeout(() => {
+                // Aquí va tu enlace real
+                window.location.href = './apvinic.apk'; 
+            }, 1500);
+
+            // Cerrar automático después de 4 segundos
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 4000);
+        }
+
+        // Animación de scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .guide-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
